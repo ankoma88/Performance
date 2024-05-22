@@ -5,6 +5,7 @@ import com.ankoma88.datastructures.performance.domain.model.PerformanceMeasureme
 import com.ankoma88.datastructures.performance.service.PerformanceAnalysisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,17 +17,17 @@ import java.util.List;
 @RequestMapping("/performance")
 public class PerformanceController {
 
-//    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
     private final PerformanceAnalysisService performanceAnalysisService;
 
     @Autowired
     public PerformanceController(PerformanceAnalysisService performanceAnalysisService
-//            , KafkaTemplate<String, String> kafkaTemplate
+            , KafkaTemplate<String, String> kafkaTemplate
     )
     {
         this.performanceAnalysisService = performanceAnalysisService;
-//        this.kafkaTemplate = kafkaTemplate;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     @GetMapping("measure")
@@ -57,6 +58,6 @@ public class PerformanceController {
     }
 
     public void sendMessage(String msg) {
-//        kafkaTemplate.send("topic1", msg);
+        kafkaTemplate.send("topic1", msg);
     }
 }
