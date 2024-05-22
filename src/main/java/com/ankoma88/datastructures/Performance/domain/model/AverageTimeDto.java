@@ -1,6 +1,13 @@
 package com.ankoma88.datastructures.performance.domain.model;
 
-public record AverageTime(Long arrayList, Long linkedList) {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class AverageTimeDto {
+    private Long arrayList;
+    private Long linkedList;
 
     @Override
     public String toString() {

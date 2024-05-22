@@ -1,6 +1,9 @@
 package com.ankoma88.datastructures.performance.domain.performance;
 
+import lombok.Getter;
+
 public class Config {
+    @Getter
     private final int listSize;
 
     protected final String[] elements;
@@ -8,10 +11,6 @@ public class Config {
     public Config(int listSize) {
         this.listSize = listSize;
         elements = initList();
-    }
-
-    public int getListSize() {
-        return listSize;
     }
 
     public String[] initList() {

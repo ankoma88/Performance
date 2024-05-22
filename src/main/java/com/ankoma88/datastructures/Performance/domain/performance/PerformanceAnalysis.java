@@ -1,14 +1,14 @@
 package com.ankoma88.datastructures.performance.domain.performance;
 
-import com.ankoma88.datastructures.performance.domain.model.DataStructure;
-import com.ankoma88.datastructures.performance.domain.model.Scenario;
+import com.ankoma88.datastructures.performance.domain.model.DataStructureEnum;
+import com.ankoma88.datastructures.performance.domain.model.ScenarioEnum;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.ankoma88.datastructures.performance.domain.model.Operation.*;
+import static com.ankoma88.datastructures.performance.domain.model.OperationEnum.*;
 
 public class PerformanceAnalysis {
 
@@ -34,7 +34,7 @@ public class PerformanceAnalysis {
         lastElement = config.getElement(true, max - 1);
     }
 
-    public Long operationCreate(Scenario scenario, DataStructure dataStructure) {
+    public Long operationCreate(ScenarioEnum scenario, DataStructureEnum dataStructure) {
         initialize();
         Analyzer operationAdd = new Analyzer() {
             @Override
@@ -49,7 +49,7 @@ public class PerformanceAnalysis {
 
             @Override
             void setup() {
-                testList = dataStructure == DataStructure.ARRAYLIST ? new ArrayList<>() : new LinkedList<>();
+                testList = dataStructure == DataStructureEnum.ARRAYLIST ? new ArrayList<>() : new LinkedList<>();
                 testList.addAll(stringList);
             }
 
@@ -66,7 +66,7 @@ public class PerformanceAnalysis {
         return operationAdd.doPerformanceAnalysis();
     }
 
-    public Long operationRead(Scenario scenario, DataStructure dataStructure) {
+    public Long operationRead(ScenarioEnum scenario, DataStructureEnum dataStructure) {
         initialize();
         Analyzer findInList = new Analyzer() {
             @Override
@@ -81,7 +81,7 @@ public class PerformanceAnalysis {
 
             @Override
             void setup() {
-                testList = dataStructure == DataStructure.ARRAYLIST ? new ArrayList<>() : new LinkedList<>();
+                testList = dataStructure == DataStructureEnum.ARRAYLIST ? new ArrayList<>() : new LinkedList<>();
                 testList.addAll(stringList);
             }
 
@@ -98,7 +98,7 @@ public class PerformanceAnalysis {
         return findInList.doPerformanceAnalysis();
     }
 
-    public Long operationUpdate(Scenario scenario, DataStructure dataStructure) {
+    public Long operationUpdate(ScenarioEnum scenario, DataStructureEnum dataStructure) {
         initialize();
         Analyzer updateInList = new Analyzer() {
             @Override
@@ -113,7 +113,7 @@ public class PerformanceAnalysis {
 
             @Override
             void setup() {
-                testList = dataStructure == DataStructure.ARRAYLIST ? new ArrayList<>() : new LinkedList<>();
+                testList = dataStructure == DataStructureEnum.ARRAYLIST ? new ArrayList<>() : new LinkedList<>();
                 testList.addAll(stringList);
             }
 
@@ -145,7 +145,7 @@ public class PerformanceAnalysis {
         return updateInList.doPerformanceAnalysis();
     }
 
-    public Long operationDelete(Scenario scenario, DataStructure dataStructure) {
+    public Long operationDelete(ScenarioEnum scenario, DataStructureEnum dataStructure) {
         initialize();
         Analyzer deleteInList = new Analyzer() {
             @Override
@@ -160,7 +160,7 @@ public class PerformanceAnalysis {
 
             @Override
             void setup() {
-                testList = dataStructure == DataStructure.ARRAYLIST ? new ArrayList<>() : new LinkedList<>();
+                testList = dataStructure == DataStructureEnum.ARRAYLIST ? new ArrayList<>() : new LinkedList<>();
                 testList.addAll(stringList);
             }
 

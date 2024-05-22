@@ -21,10 +21,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static com.ankoma88.datastructures.performance.domain.model.DataStructure.ARRAYLIST;
-import static com.ankoma88.datastructures.performance.domain.model.DataStructure.LINKEDLIST;
-import static com.ankoma88.datastructures.performance.domain.model.Operation.*;
-import static com.ankoma88.datastructures.performance.domain.model.Scenario.*;
+import static com.ankoma88.datastructures.performance.domain.model.DataStructureEnum.ARRAYLIST;
+import static com.ankoma88.datastructures.performance.domain.model.DataStructureEnum.LINKEDLIST;
+import static com.ankoma88.datastructures.performance.domain.model.OperationEnum.*;
+import static com.ankoma88.datastructures.performance.domain.model.ScenarioEnum.*;
 
 @Service
 public class PerformanceAnalysisService implements AnalysisService {
@@ -39,7 +39,7 @@ public class PerformanceAnalysisService implements AnalysisService {
     private MeasurementsRepository measurementsRepository;
 
     @Override
-    public List<PerformanceMeasurement> getLatestMeasurements(int size){
+    public List<PerformanceMeasurementDto> getLatestMeasurements(int size){
         PageRequest pageRequest = PageRequest.of(0, size);
         Page<MeasurementRecord> records = measurementsRepository.getMeasurementRecords(pageRequest);
         List<MeasurementRecord> measurementRecords = records.getContent();
@@ -47,24 +47,24 @@ public class PerformanceAnalysisService implements AnalysisService {
     }
 
     @Override
-    public Performance measureOperations(int listSize, int repeats) {
+    public PerformanceDto measureOperations(int listSize, int repeats) {
 
-        final CompletableFuture<Measurement> arrayListCreateCF = buildCompletableFuture(listSize, repeats, CREATE, ARRAYLIST);
-        final CompletableFuture<Measurement> arrayListReadCF = buildCompletableFuture(listSize, repeats, READ, ARRAYLIST);
-        final CompletableFuture<Measurement> arrayListUpdateCF = buildCompletableFuture(listSize, repeats, UPDATE, ARRAYLIST);
-        final CompletableFuture<Measurement> arrayListDeleteCF = buildCompletableFuture(listSize, repeats, DELETE, ARRAYLIST);
+        final CompletableFuture<MeasurementDto> arrayListCreateCF = buildCompletableFuture(listSize, repeats, CREATE, ARRAYLIST);
+        final CompletableFuture<MeasurementDto> arrayListReadCF = buildCompletableFuture(listSize, repeats, READ, ARRAYLIST);
+        final CompletableFuture<MeasurementDto> arrayListUpdateCF = buildCompletableFuture(listSize, repeats, UPDATE, ARRAYLIST);
+        final CompletableFuture<MeasurementDto> arrayListDeleteCF = buildCompletableFuture(listSize, repeats, DELETE, ARRAYLIST);
 
-        final CompletableFuture<Measurement> linkedListCreateCF = buildCompletableFuture(listSize, repeats, CREATE, LINKEDLIST);
-        final CompletableFuture<Measurement> linkedListReadCF = buildCompletableFuture(listSize, repeats, READ, LINKEDLIST);
-        final CompletableFuture<Measurement> linkedListUpdateCF = buildCompletableFuture(listSize, repeats, UPDATE, LINKEDLIST);
-        final CompletableFuture<Measurement> linkedListDeleteCF = buildCompletableFuture(listSize, repeats, DELETE, LINKEDLIST);
+        final CompletableFuture<MeasurementDto> linkedListCreateCF = buildCompletableFuture(listSize, repeats, CREATE, LINKEDLIST);
+        final CompletableFuture<MeasurementDto> linkedListReadCF = buildCompletableFuture(listSize, repeats, READ, LINKEDLIST);
+        final CompletableFuture<MeasurementDto> linkedListUpdateCF = buildCompletableFuture(listSize, repeats, UPDATE, LINKEDLIST);
+        final CompletableFuture<MeasurementDto> linkedListDeleteCF = buildCompletableFuture(listSize, repeats, DELETE, LINKEDLIST);
 
-        Analysis arrayListAnalysis = null;
-        Analysis linkedListAnalysis = null;
-        Performance performance;
+        AnalysisDto arrayListAnalysis = null;
+        AnalysisDto linkedListAnalysis = null;
+        PerformanceDto performance;
 
         try {
-            arrayListAnalysis = new Analysis(
+            arrayListAnalysis = new AnalysisDto(
                     arrayListCreateCF.get(),
                     arrayListReadCF.get(),
                     arrayListUpdateCF.get(),
@@ -76,7 +76,7 @@ public class PerformanceAnalysisService implements AnalysisService {
             LOGGER.log(Level.WARNING, e.getCause().getMessage(), e.getCause());
         }
         try {
-            linkedListAnalysis = new Analysis(
+            linkedListAnalysis = new AnalysisDto(
                     linkedListCreateCF.get(),
                     linkedListReadCF.get(),
                     linkedListUpdateCF.get(),
@@ -93,7 +93,7 @@ public class PerformanceAnalysisService implements AnalysisService {
         return performance;
     }
 
-    private CompletableFuture<Measurement> buildCompletableFuture(int listSize, int repeats, Operation operation, DataStructure dataStructure) {
+    private CompletableFuture<MeasurementDto> buildCompletableFuture(int listSize, int repeats, OperationEnum operation, DataStructureEnum dataStructure) {
         final PerformanceAnalysis performanceAnalysis = new PerformanceAnalysis(listSize, repeats);
 
         AtomicLong start = new AtomicLong();
@@ -122,45 +122,45 @@ public class PerformanceAnalysisService implements AnalysisService {
                     end.set(performanceAnalysis.operationDelete(END, dataStructure));
                 }
             }
-            final Measurement measurement = new Measurement(start.get(), middle.get(), end.get());
+            final MeasurementDto measurement = new MeasurementDto(start.get(), middle.get(), end.get());
             persist(measurement, operation, dataStructure);
             return measurement;
         }, measurementsThreadPool);
     }
 
-    private void persist(Measurement measurement, Operation operation, DataStructure dataStructure) {
+    private void persist(MeasurementDto measurement, OperationEnum operation, DataStructureEnum dataStructure) {
         measurementsRepository.save(buildMeasurementRecord(measurement, operation, dataStructure));
     }
 
-    private Performance buildPerformanceAnalysis(Analysis arrayListAnalysis, Analysis linkedListAnalysis) {
+    private PerformanceDto buildPerformanceAnalysis(AnalysisDto arrayListAnalysis, AnalysisDto linkedListAnalysis) {
         final Long averageArrayListOperationTime = getAverageOperationTime(arrayListAnalysis);
         final Long averageLinkedListOperationTime = getAverageOperationTime(linkedListAnalysis);
 
         final String recommendation = buildRecommendation();
 
-        final AverageTime averageTime = new AverageTime(averageArrayListOperationTime, averageLinkedListOperationTime);
+        final AverageTimeDto averageTime = new AverageTimeDto(averageArrayListOperationTime, averageLinkedListOperationTime);
 
-        return new Performance(
-                new Details(
+        return new PerformanceDto(
+                new DetailsDto(
                         arrayListAnalysis,
                         linkedListAnalysis
                 ),
-                new OverallComparison(
+                new OverallComparisonDto(
                         recommendation,
                         averageTime
                 )
         );
     }
 
-    private Long getAverageOperationTime(Analysis arrayListAnalysis) {
-        final Long arrayListCreateAverageTime = (arrayListAnalysis.create().start()
-                + arrayListAnalysis.create().middle() + arrayListAnalysis.create().end()) / 3;
-        final Long arrayListReadAverageTime = (arrayListAnalysis.read().start()
-                + arrayListAnalysis.read().middle() + arrayListAnalysis.read().end()) / 3;
-        final Long arrayListUpdateAverageTime = (arrayListAnalysis.update().start()
-                + arrayListAnalysis.update().middle() + arrayListAnalysis.update().end()) / 3;
-        final Long arrayListDeleteAverageTime = (arrayListAnalysis.delete().start()
-                + arrayListAnalysis.delete().middle() + arrayListAnalysis.delete().end()) / 3;
+    private Long getAverageOperationTime(AnalysisDto arrayListAnalysis) {
+        final Long arrayListCreateAverageTime = (arrayListAnalysis.getCreate().getStart()
+                + arrayListAnalysis.getCreate().getMiddle() + arrayListAnalysis.getCreate().getEnd()) / 3;
+        final Long arrayListReadAverageTime = (arrayListAnalysis.getRead().getStart()
+                + arrayListAnalysis.getRead().getMiddle() + arrayListAnalysis.getRead().getEnd()) / 3;
+        final Long arrayListUpdateAverageTime = (arrayListAnalysis.getUpdate().getStart()
+                + arrayListAnalysis.getCreate().getMiddle() + arrayListAnalysis.getUpdate().getEnd()) / 3;
+        final Long arrayListDeleteAverageTime = (arrayListAnalysis.getDelete().getStart()
+                + arrayListAnalysis.getDelete().getMiddle() + arrayListAnalysis.getDelete().getEnd()) / 3;
         return (arrayListCreateAverageTime + arrayListReadAverageTime
                 + arrayListUpdateAverageTime + arrayListDeleteAverageTime) / 4;
     }
@@ -172,13 +172,13 @@ public class PerformanceAnalysisService implements AnalysisService {
                 """;
     }
 
-    private MeasurementRecord buildMeasurementRecord(Measurement measurement, Operation operation, DataStructure dataStructure) {
-        return new MeasurementRecord(dataStructure.name(), operation.name(), measurement.start(), measurement.middle(), measurement.end(), Timestamp.from(Instant.now()));
+    private MeasurementRecord buildMeasurementRecord(MeasurementDto measurement, OperationEnum operation, DataStructureEnum dataStructure) {
+        return new MeasurementRecord(dataStructure.name(), operation.name(), measurement.getStart(), measurement.getMiddle(), measurement.getEnd(), Timestamp.from(Instant.now()));
     }
 
-    private List<PerformanceMeasurement> buildMeasurements(List<MeasurementRecord> measurementRecords) {
+    private List<PerformanceMeasurementDto> buildMeasurements(List<MeasurementRecord> measurementRecords) {
         return measurementRecords.stream().map(it ->
-                new PerformanceMeasurement(
+                new PerformanceMeasurementDto(
                         it.getId(), it.getDataStructure(), it.getOperation(), it.getFirst(), it.getMiddle(), it.getLast(), it.getTimeStamp()
                 )
         ).collect(Collectors.toList());

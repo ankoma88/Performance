@@ -29,38 +29,38 @@ class PerformanceControllerTests {
     @MockBean
     private PerformanceAnalysisService service;
 
-    private List<PerformanceMeasurement> createMockResponseForMeasurements() {
-        PerformanceMeasurement someMeasurement0 = new PerformanceMeasurement(
+    private List<PerformanceMeasurementDto> createMockResponseForMeasurements() {
+        PerformanceMeasurementDto someMeasurement0 = new PerformanceMeasurementDto(
                 123L,
-                DataStructure.ARRAYLIST.name(),
-                Operation.CREATE.name(),
+                DataStructureEnum.ARRAYLIST.name(),
+                OperationEnum.CREATE.name(),
                 1L,
                 20L,
                 0L,
                 Timestamp.from(Instant.now())
         );
-        PerformanceMeasurement someMeasurement1 = new PerformanceMeasurement(
+        PerformanceMeasurementDto someMeasurement1 = new PerformanceMeasurementDto(
                 124L,
-                DataStructure.LINKEDLIST.name(),
-                Operation.READ.name(),
+                DataStructureEnum.LINKEDLIST.name(),
+                OperationEnum.READ.name(),
                 1L,
                 0L,
                 2L,
                 Timestamp.from(Instant.now())
         );
-        final List<PerformanceMeasurement> mockResponse = new ArrayList<>();
+        final List<PerformanceMeasurementDto> mockResponse = new ArrayList<>();
         mockResponse.add(someMeasurement0);
         mockResponse.add(someMeasurement1);
         return mockResponse;
     }
 
-    private Performance createMockResponseForPerformanceTest() {
-        return new Performance(
-                new Details(
-                        new Analysis(new Measurement(1L, 20L, 1L), new Measurement(0L, 5L, 2L), new Measurement(0L, 0L, 1L), new Measurement(3L, 0L, 0L)),
-                        new Analysis(new Measurement(0L, 0L, 1L), new Measurement(0L, 0L, 1L), new Measurement(10L, 20L, 1L), new Measurement(0L, 0L, 1L))
+    private PerformanceDto createMockResponseForPerformanceTest() {
+        return new PerformanceDto(
+                new DetailsDto(
+                        new AnalysisDto(new MeasurementDto(1L, 20L, 1L), new MeasurementDto(0L, 5L, 2L), new MeasurementDto(0L, 0L, 1L), new MeasurementDto(3L, 0L, 0L)),
+                        new AnalysisDto(new MeasurementDto(0L, 0L, 1L), new MeasurementDto(0L, 0L, 1L), new MeasurementDto(10L, 20L, 1L), new MeasurementDto(0L, 0L, 1L))
                 ),
-                new OverallComparison("some recommendation", new AverageTime(10L, 8L))
+                new OverallComparisonDto("some recommendation", new AverageTimeDto(10L, 8L))
         );
     }
 
@@ -134,7 +134,7 @@ class PerformanceControllerTests {
                         .param("size", "2")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(jsonPath("$[0].dataStructure").value(DataStructure.ARRAYLIST.name()))
-                .andExpect(jsonPath("$[1].dataStructure").value(DataStructure.LINKEDLIST.name()));
+                .andExpect(jsonPath("$[0].dataStructure").value(DataStructureEnum.ARRAYLIST.name()))
+                .andExpect(jsonPath("$[1].dataStructure").value(DataStructureEnum.LINKEDLIST.name()));
     }
 }

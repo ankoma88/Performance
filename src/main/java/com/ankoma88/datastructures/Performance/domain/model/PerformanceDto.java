@@ -1,6 +1,13 @@
 package com.ankoma88.datastructures.performance.domain.model;
 
-public record Performance(Details details, OverallComparison overallComparison) {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class PerformanceDto {
+    private DetailsDto details;
+    private OverallComparisonDto overallComparison;
 
     @Override
     public String toString() {

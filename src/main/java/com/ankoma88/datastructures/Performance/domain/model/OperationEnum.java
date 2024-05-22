@@ -1,5 +1,5 @@
 package com.ankoma88.datastructures.performance.domain.model;
 
-public enum Scenario {
-    START, MIDDLE, END
+public enum OperationEnum {
+    CREATE, READ, UPDATE, DELETE
 }

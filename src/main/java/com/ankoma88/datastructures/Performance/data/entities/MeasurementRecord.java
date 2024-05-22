@@ -12,7 +12,6 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Getter
 @Setter
-
 @Entity(name = "measurements")
 public class MeasurementRecord {
     @Id
