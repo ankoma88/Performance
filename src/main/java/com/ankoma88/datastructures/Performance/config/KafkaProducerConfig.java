@@ -1,4 +1,4 @@
-package com.ankoma88.datastructures.Performance.config;
+package com.ankoma88.datastructures.performance.config;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;

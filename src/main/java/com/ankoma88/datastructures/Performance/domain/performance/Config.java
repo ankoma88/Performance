@@ -1,4 +1,4 @@
-package com.ankoma88.datastructures.Performance.domain.performance;
+package com.ankoma88.datastructures.performance.domain.performance;
 
 public class Config {
     private final int listSize;

@@ -1,6 +1,6 @@
-package com.ankoma88.datastructures.Performance;
+package com.ankoma88.datastructures.performance;
 
-import com.ankoma88.datastructures.Performance.controller.PerformanceController;
+import com.ankoma88.datastructures.performance.controller.PerformanceController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

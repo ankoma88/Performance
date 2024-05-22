@@ -1,14 +1,14 @@
-package com.ankoma88.datastructures.Performance.domain.performance;
+package com.ankoma88.datastructures.performance.domain.performance;
 
-import com.ankoma88.datastructures.Performance.domain.model.DataStructure;
-import com.ankoma88.datastructures.Performance.domain.model.Scenario;
+import com.ankoma88.datastructures.performance.domain.model.DataStructure;
+import com.ankoma88.datastructures.performance.domain.model.Scenario;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.ankoma88.datastructures.Performance.domain.model.Operation.*;
+import static com.ankoma88.datastructures.performance.domain.model.Operation.*;
 
 public class PerformanceAnalysis {
 

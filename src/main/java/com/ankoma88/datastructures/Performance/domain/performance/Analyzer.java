@@ -1,4 +1,4 @@
-package com.ankoma88.datastructures.Performance.domain.performance;
+package com.ankoma88.datastructures.performance.domain.performance;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

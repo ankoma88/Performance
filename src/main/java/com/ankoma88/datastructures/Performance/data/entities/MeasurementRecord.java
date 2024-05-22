@@ -1,27 +1,34 @@
-package com.ankoma88.datastructures.Performance.data.entities;
+package com.ankoma88.datastructures.performance.data.entities;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.sql.Timestamp;
 
-@Table("measurements")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+
+@Entity(name = "measurements")
 public class MeasurementRecord {
     @Id
-    @Column("id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column("datastructure")
+    @Column(name = "datastructure")
     private String dataStructure;
-    @Column("operation")
+    @Column(name = "operation")
     private String operation;
-    @Column("first")
+    @Column(name = "first")
     private Long first;
-    @Column("middle")
+    @Column(name = "middle")
     private Long middle;
-    @Column("last")
+    @Column(name = "last")
     private Long last;
-    @Column("timestamp")
+    @Column(name = "timestamp")
     private Timestamp timeStamp;
 
     public MeasurementRecord(String dataStructure, String operation, Long first, Long middle, Long last, Timestamp timeStamp) {
@@ -31,61 +38,5 @@ public class MeasurementRecord {
         this.middle = middle;
         this.last = last;
         this.timeStamp = timeStamp;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDataStructure() {
-        return dataStructure;
-    }
-
-    public void setDataStructure(String dataStructure) {
-        this.dataStructure = dataStructure;
-    }
-
-    public String getOperation() {
-        return operation;
-    }
-
-    public void setOperation(String operation) {
-        this.operation = operation;
-    }
-
-    public Long getFirst() {
-        return first;
-    }
-
-    public void setFirst(Long first) {
-        this.first = first;
-    }
-
-    public Long getMiddle() {
-        return middle;
-    }
-
-    public void setMiddle(Long middle) {
-        this.middle = middle;
-    }
-
-    public Long getLast() {
-        return last;
-    }
-
-    public void setLast(Long last) {
-        this.last = last;
-    }
-
-    public Timestamp getTimestamp() {
-        return timeStamp;
-    }
-
-    public void setTimestamp(Timestamp timestamp) {
-        this.timeStamp = timestamp;
     }
 }

@@ -1,4 +1,4 @@
-package com.ankoma88.datastructures.Performance.domain.model;
+package com.ankoma88.datastructures.performance.domain.model;
 
 public record AverageTime(Long arrayList, Long linkedList) {
 

@@ -1,11 +1,13 @@
-package com.ankoma88.datastructures.Performance.service;
+package com.ankoma88.datastructures.performance.service;
 
-import com.ankoma88.datastructures.Performance.data.entities.MeasurementRecord;
-import com.ankoma88.datastructures.Performance.data.repository.MeasurementsRepository;
-import com.ankoma88.datastructures.Performance.domain.performance.PerformanceAnalysis;
-import com.ankoma88.datastructures.Performance.domain.model.*;
+import com.ankoma88.datastructures.performance.data.entities.MeasurementRecord;
+import com.ankoma88.datastructures.performance.data.repository.MeasurementsRepository;
+import com.ankoma88.datastructures.performance.domain.performance.PerformanceAnalysis;
+import com.ankoma88.datastructures.performance.domain.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -19,10 +21,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static com.ankoma88.datastructures.Performance.domain.model.DataStructure.ARRAYLIST;
-import static com.ankoma88.datastructures.Performance.domain.model.DataStructure.LINKEDLIST;
-import static com.ankoma88.datastructures.Performance.domain.model.Operation.*;
-import static com.ankoma88.datastructures.Performance.domain.model.Scenario.*;
+import static com.ankoma88.datastructures.performance.domain.model.DataStructure.ARRAYLIST;
+import static com.ankoma88.datastructures.performance.domain.model.DataStructure.LINKEDLIST;
+import static com.ankoma88.datastructures.performance.domain.model.Operation.*;
+import static com.ankoma88.datastructures.performance.domain.model.Scenario.*;
 
 @Service
 public class PerformanceAnalysisService implements AnalysisService {
@@ -38,7 +40,9 @@ public class PerformanceAnalysisService implements AnalysisService {
 
     @Override
     public List<PerformanceMeasurement> getLatestMeasurements(int size){
-        List<MeasurementRecord> measurementRecords = measurementsRepository.getMeasurementRecords(size);
+        PageRequest pageRequest = PageRequest.of(0, size);
+        Page<MeasurementRecord> records = measurementsRepository.getMeasurementRecords(pageRequest);
+        List<MeasurementRecord> measurementRecords = records.getContent();
         return buildMeasurements(measurementRecords);
     }
 
@@ -175,7 +179,7 @@ public class PerformanceAnalysisService implements AnalysisService {
     private List<PerformanceMeasurement> buildMeasurements(List<MeasurementRecord> measurementRecords) {
         return measurementRecords.stream().map(it ->
                 new PerformanceMeasurement(
-                        it.getId(), it.getDataStructure(), it.getOperation(), it.getFirst(), it.getMiddle(), it.getLast(), it.getTimestamp()
+                        it.getId(), it.getDataStructure(), it.getOperation(), it.getFirst(), it.getMiddle(), it.getLast(), it.getTimeStamp()
                 )
         ).collect(Collectors.toList());
     }

@@ -1,14 +1,14 @@
-package com.ankoma88.datastructures.Performance.data.repository;
+package com.ankoma88.datastructures.performance.data.repository;
 
-import com.ankoma88.datastructures.Performance.data.entities.MeasurementRecord;
-import org.springframework.data.jdbc.repository.query.Query;
-import org.springframework.data.repository.ListCrudRepository;
-import org.springframework.data.repository.query.Param;
+import com.ankoma88.datastructures.performance.data.entities.MeasurementRecord;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
+public interface MeasurementsRepository extends JpaRepository<MeasurementRecord, Long> {
 
-public interface MeasurementsRepository extends ListCrudRepository<MeasurementRecord, Long> {
-
-    @Query("select * from measurements limit :size")
-    List<MeasurementRecord> getMeasurementRecords(@Param("size") long size);
+    @Query("SELECT m from measurements m")
+    Page<MeasurementRecord> getMeasurementRecords(Pageable pageable);
 }

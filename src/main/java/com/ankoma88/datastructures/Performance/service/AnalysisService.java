@@ -1,7 +1,7 @@
-package com.ankoma88.datastructures.Performance.service;
+package com.ankoma88.datastructures.performance.service;
 
-import com.ankoma88.datastructures.Performance.domain.model.Performance;
-import com.ankoma88.datastructures.Performance.domain.model.PerformanceMeasurement;
+import com.ankoma88.datastructures.performance.domain.model.Performance;
+import com.ankoma88.datastructures.performance.domain.model.PerformanceMeasurement;
 
 import java.util.List;
 

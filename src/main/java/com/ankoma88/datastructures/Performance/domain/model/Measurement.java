@@ -1,4 +1,4 @@
-package com.ankoma88.datastructures.Performance.domain.model;
+package com.ankoma88.datastructures.performance.domain.model;
 
 public record Measurement(Long start, Long middle, Long end) {
 

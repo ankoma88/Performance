@@ -1,8 +1,8 @@
-package com.ankoma88.datastructures.Performance;
+package com.ankoma88.datastructures.performance;
 
-import com.ankoma88.datastructures.Performance.controller.PerformanceController;
-import com.ankoma88.datastructures.Performance.domain.model.*;
-import com.ankoma88.datastructures.Performance.service.PerformanceAnalysisService;
+import com.ankoma88.datastructures.performance.controller.PerformanceController;
+import com.ankoma88.datastructures.performance.domain.model.*;
+import com.ankoma88.datastructures.performance.service.PerformanceAnalysisService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;

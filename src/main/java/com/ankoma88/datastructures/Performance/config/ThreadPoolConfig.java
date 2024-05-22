@@ -1,4 +1,4 @@
-package com.ankoma88.datastructures.Performance.config;
+package com.ankoma88.datastructures.performance.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

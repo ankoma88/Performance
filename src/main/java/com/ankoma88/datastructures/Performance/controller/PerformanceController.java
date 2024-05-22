@@ -1,8 +1,8 @@
-package com.ankoma88.datastructures.Performance.controller;
+package com.ankoma88.datastructures.performance.controller;
 
-import com.ankoma88.datastructures.Performance.domain.model.Performance;
-import com.ankoma88.datastructures.Performance.domain.model.PerformanceMeasurement;
-import com.ankoma88.datastructures.Performance.service.PerformanceAnalysisService;
+import com.ankoma88.datastructures.performance.domain.model.Performance;
+import com.ankoma88.datastructures.performance.domain.model.PerformanceMeasurement;
+import com.ankoma88.datastructures.performance.service.PerformanceAnalysisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -22,8 +22,9 @@ public class PerformanceController {
     private final PerformanceAnalysisService performanceAnalysisService;
 
     @Autowired
-    public PerformanceController(PerformanceAnalysisService performanceAnalysisService,
-                                 KafkaTemplate<String, String> kafkaTemplate)
+    public PerformanceController(PerformanceAnalysisService performanceAnalysisService
+            , KafkaTemplate<String, String> kafkaTemplate
+    )
     {
         this.performanceAnalysisService = performanceAnalysisService;
         this.kafkaTemplate = kafkaTemplate;
@@ -31,7 +32,7 @@ public class PerformanceController {
 
     @GetMapping("measure")
     public ResponseEntity<Performance> measurePerformance(
-            @RequestParam(value = "listSize", defaultValue = "1000") int listSize,
+            @RequestParam(value = "listSize", defaultValue = "10000") int listSize,
             @RequestParam(value = "repeats", defaultValue = "1") int repeats
     ) {
         try {
@@ -45,7 +46,7 @@ public class PerformanceController {
 
     @GetMapping("getMeasurements")
     public ResponseEntity<List<PerformanceMeasurement>> getPerformanceMeasurements(
-            @RequestParam(value = "size", defaultValue = "10") int size
+            @RequestParam(value = "size", defaultValue = "100") int size
     ) {
         try {
             ResponseEntity<List<PerformanceMeasurement>> response = ResponseEntity.ok(performanceAnalysisService.getLatestMeasurements(size)) ;
