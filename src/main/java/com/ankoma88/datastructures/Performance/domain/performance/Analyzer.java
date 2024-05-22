@@ -28,7 +28,7 @@ public abstract class Analyzer {
 
         long averageTime = totalTime / runs;
         long millis = (long) (averageTime / 1e6);
-        LOGGER.log(Level.INFO, (getName() + " took " + millis + " ms"));
+//        LOGGER.log(Level.INFO, (getName() + " took " + millis + " ms"));
         return millis;
     }
 }

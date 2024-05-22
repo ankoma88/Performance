@@ -22,10 +22,9 @@ public class PerformanceController {
     private final PerformanceAnalysisService performanceAnalysisService;
 
     @Autowired
-    public PerformanceController(PerformanceAnalysisService performanceAnalysisService
-            , KafkaTemplate<String, String> kafkaTemplate
-    )
-    {
+    public PerformanceController(PerformanceAnalysisService performanceAnalysisService,
+                                 KafkaTemplate<String, String> kafkaTemplate
+    ) {
         this.performanceAnalysisService = performanceAnalysisService;
         this.kafkaTemplate = kafkaTemplate;
     }
@@ -49,7 +48,7 @@ public class PerformanceController {
             @RequestParam(value = "size", defaultValue = "100") int size
     ) {
         try {
-            ResponseEntity<List<PerformanceMeasurementDto>> response = ResponseEntity.ok(performanceAnalysisService.getLatestMeasurements(size)) ;
+            ResponseEntity<List<PerformanceMeasurementDto>> response = ResponseEntity.ok(performanceAnalysisService.getLatestMeasurements(size));
             sendMessage("getPerformanceMeasurements job done");
             return response;
         } catch (Exception e) {
