@@ -1,4 +1,4 @@
-package com.ankoma88.datastructures.performance.kafka;
+package com.ankoma88.datastructures.performance.messaging;
 
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
