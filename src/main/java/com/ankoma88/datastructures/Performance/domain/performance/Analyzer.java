@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 public abstract class Analyzer {
 
+
     private static final Logger LOGGER = Logger.getLogger( PerformanceAnalysis.class.getName() );
 
     abstract int getRepeats();
