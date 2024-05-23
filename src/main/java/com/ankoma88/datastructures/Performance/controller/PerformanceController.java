@@ -2,7 +2,6 @@ package com.ankoma88.datastructures.performance.controller;
 
 import com.ankoma88.datastructures.performance.domain.model.PerformanceDto;
 import com.ankoma88.datastructures.performance.domain.model.PerformanceMeasurementDto;
-import com.ankoma88.datastructures.performance.exception.ResourceNotFoundException;
 import com.ankoma88.datastructures.performance.service.PerformanceAnalysisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +38,7 @@ public class PerformanceController {
             ResponseEntity<PerformanceDto> response = ResponseEntity.ok(performanceAnalysisService.measureOperations(listSize, repeats));
             sendMessage("measurePerformance job done");
             return response;
-        } catch (ResourceNotFoundException e) {
+        } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }
@@ -52,7 +51,7 @@ public class PerformanceController {
             ResponseEntity<List<PerformanceMeasurementDto>> response = ResponseEntity.ok(performanceAnalysisService.getLatestMeasurements(size));
             sendMessage("getPerformanceMeasurements job done");
             return response;
-        } catch (ResourceNotFoundException e) {
+        } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }

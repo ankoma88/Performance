@@ -1,6 +1,5 @@
-package com.ankoma88.datastructures.performance;
+package com.ankoma88.datastructures.performance.controller;
 
-import com.ankoma88.datastructures.performance.controller.PerformanceController;
 import com.ankoma88.datastructures.performance.domain.model.*;
 import com.ankoma88.datastructures.performance.service.PerformanceAnalysisService;
 import org.junit.jupiter.api.Test;
